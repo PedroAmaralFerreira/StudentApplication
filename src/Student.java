@@ -10,11 +10,12 @@ public class Student {
 		
 		for (int i = 0; i < numStudents; i++) {
 			name[i] = getValidName("Enter the student's name: ");
-			age[i] = Integer.parseInt(JOptionPane.showInputDialog("Enter the student's age: "));
-			if (age[i] < 18)
-				age[i] = Integer.parseInt(JOptionPane.showInputDialog("Please, re-enter student's age: "));
-				if (age[i] < 18)
-					JOptionPane.showMessageDialog(null, "Unfortunatly, you won't be able to apply due to being under aged.");
+			age[i] = getValidAge("Enter the student's age: ");
+			if (age[i] < 18) {
+				age[i] = getValidAge("The entered age doesn't meet up the application requirements. Please, confirm your age: ");
+				if (age [i] < 18)
+					JOptionPane.showMessageDialog(null, "Unfortunately, you don't meet up the requirements.");
+			}
 		}
 		
 		StringBuilder acceptedNames = new StringBuilder("Accepted students:\n");
@@ -45,6 +46,21 @@ public class Student {
 			JOptionPane.showMessageDialog(null, acceptedNames.toString() + "Empty\n\n" + notAcceptedNames.toString() + "Empty");
 }
 	
+	private static int getValidAge(String confirmAgeMessage) {
+		while (true) {
+			try {
+				int confirmAge = Integer.parseInt(JOptionPane.showInputDialog(confirmAgeMessage));
+				if (confirmAge >= 0) {
+					return confirmAge;
+				} else {
+					JOptionPane.showMessageDialog(null, "INVALID AGE!");
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "ERROR: INVALID AGE!");
+			}
+		}
+	}
+	
 	private static int getValidNumberOfStudents() {
         while (true) {
             try {
@@ -55,7 +71,7 @@ public class Student {
                     JOptionPane.showMessageDialog(null, "INVALID NUMBER!");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
+                JOptionPane.showMessageDialog(null, "ERROR: INVALID INPUT!");
             }
         }
     }
@@ -67,7 +83,7 @@ public class Student {
 			if (isValidName(confirm))
 				return confirm;
 			else
-				JOptionPane.showMessageDialog(null, "Invalid name. Please, try again.");
+				JOptionPane.showMessageDialog(null, "ERROR: INVALID NAME!");
 		}
 	}
 	
