@@ -4,13 +4,17 @@ public class Student {
 
 	public static void main(String[] args) {
 
-		int numStudents = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of students: "));
+		int numStudents = getValidNumberOfStudents();
 		String[] name = new String[numStudents];
 		int[] age = new int[numStudents];
 		
 		for (int i = 0; i < numStudents; i++) {
 			name[i] = getValidName("Enter the student's name: ");
 			age[i] = Integer.parseInt(JOptionPane.showInputDialog("Enter the student's age: "));
+			if (age[i] < 18)
+				age[i] = Integer.parseInt(JOptionPane.showInputDialog("Please, re-enter student's age: "));
+				if (age[i] < 18)
+					JOptionPane.showMessageDialog(null, "Unfortunatly, you won't be able to apply due to being under aged.");
 		}
 		
 		StringBuilder acceptedNames = new StringBuilder("Accepted students:\n");
@@ -40,6 +44,21 @@ public class Student {
 		else
 			JOptionPane.showMessageDialog(null, acceptedNames.toString() + "Empty\n\n" + notAcceptedNames.toString() + "Empty");
 }
+	
+	private static int getValidNumberOfStudents() {
+        while (true) {
+            try {
+                int number = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of students: "));
+                if (number >= 0) {
+                    return number;
+                } else {
+                    JOptionPane.showMessageDialog(null, "INVALID NUMBER!");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
+            }
+        }
+    }
 	
 	private static String getValidName(String confirmName) {
 		while (true)
